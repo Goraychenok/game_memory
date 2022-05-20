@@ -1,10 +1,7 @@
 
 <template>
 
-
-
-
-      <div class="row">
+      <div class="row" v-if="changeGameStatus">
         <div v-bind:key="item.key" class="col-lg-2" v-for="(item, i) in elements">
           <div class="memory__block" @click="cardClick(i)">
             <img v-bind:src="item.img" :class="[{'block': item.cardStatus, 'saved': item.cardOpen}]"  alt="" class="memory__img">
@@ -47,12 +44,22 @@ export default {
     })
     this.elements = this.elements.sort(() => Math.random() - 0.5);
   },
+  computed: {
+    changeGameStatus: {
+      get() {
+        return this.$store.state.startGame
+      },
+      set(v) {
+        this.$store.commit('changeGameStatus', v)
+      }
+    }
+  },
   methods: {
     cardClick: function (i){
         if(this.selectItems.length >= 2){
           return;
         }
-        if(this.elements[i].cardStatus === false){
+        if(this.elements[i].cardStatus === false && this.elements[i].cardOpen === false){
           this.elements[i].cardStatus = !this.elements[i].cardStatus;
           this.selectItems.push(this.elements[i]);
         }
@@ -60,15 +67,20 @@ export default {
           setTimeout(() => this.cardCheck(), 1000);
         }else if(this.selectItems.length === 1){
           setTimeout(() => {
-            if(this.elements[i].cardOpen === false){
-              this.elements[i].cardStatus = false;
-              this.selectItems = [];
-            }
+            if(this.selectItems.length === 1){
+              if(this.elements[i].cardOpen === false){
+                this.elements[i].cardStatus = false;
+                this.selectItems = [];
+                }
+              }
             }, 5000)
         }
+
+
     },
     cardCheck: function (){
       if(this.selectItems[0]?.img !== undefined && this.selectItems[1]?.img !== undefined){
+
         if(this.selectItems[0]?.img === this.selectItems[1]?.img){
           this.selectItems[0].cardOpen = true;
           this.selectItems[1].cardOpen = true;
@@ -80,9 +92,27 @@ export default {
             this.selectItems[1].cardStatus = false;
           }
         }
+      }else{
+        debugger; // eslint-disable-line no-debugger
       }
 
       this.selectItems = [];
+    }
+  },
+  watch: {
+    elements: {
+      handler(){
+        let i = 0;
+        this.elements.forEach((element)  => {
+          if(element.cardOpen){
+            i++;
+          }
+        })
+        if(i === this.elements.length){
+          this.changeGameStatus = !this.changeGameStatus
+        }
+      },
+      deep: true
     }
   }
 }

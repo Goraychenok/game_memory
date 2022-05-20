@@ -6,6 +6,8 @@
         <v_Start />
       </div>
       <v_Memory />
+      <v_Form />
+      <v_Result />
     </div>
   </div>
 </template>
@@ -14,6 +16,8 @@
 import v_Timer from './components/vue-Timer.vue'
 import v_Start from  './components/vue-Start.vue'
 import v_Memory from './components/Memory'
+import v_Result from './components/vue-Results.vue'
+import v_Form from './components/vue-Form.vue'
 
 
 
@@ -23,7 +27,9 @@ export default {
   components: {
     v_Timer,
     v_Start,
-    v_Memory
+    v_Memory,
+    v_Result,
+    v_Form
   }
 }
 </script>

@@ -44,7 +44,8 @@ export default{
   data() {
     return {
       time: 0,
-      duration: 0
+      duration: 0,
+      timerId: null
     }
   },
   computed: {
@@ -64,6 +65,22 @@ export default{
     changeGameStatus: {
       get() {
         return this.$store.state.startGame
+      }
+    },
+    stopGame: {
+      get() {
+        return this.$store.state.time
+      },
+      set(time) {
+        this.$store.commit('writeTime', time)
+      }
+    },
+    openForm: {
+      get(){
+        return this.$store.state.stopGame
+      },
+      set(v){
+        this.$store.commit('openForm', v)
       }
     }
   },
@@ -91,9 +108,13 @@ export default{
     changeGameStatus(v) {
       if(v){
         this.load()
-        setInterval(() => {
+        this.timerId = setInterval(() => {
           this.tick()
         }, 1000)
+      }else{
+        this.stopGame = [this.seconds, this.minutes, this.hours, this.days];
+        clearInterval(this.timerId);
+        this.openForm = !this.openForm
       }
     }
   }

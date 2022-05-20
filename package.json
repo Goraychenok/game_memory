@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "json-server": "json-server --watch db.json",
+    "start": "concurrently \"npm run json-server\" \"npm run serve\" "
   },
   "dependencies": {
     "axios": "^0.27.2",

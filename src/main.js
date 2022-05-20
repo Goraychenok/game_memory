@@ -8,12 +8,24 @@ import { createStore } from 'vuex'
 const store = createStore({
     state () {
         return {
-            startGame: false
+            startGame: false,
+            time: [],
+            stopGame: false,
+            viewResult: false
         }
     },
     mutations: {
         changeGameStatus(state, v) {
             state.startGame = v
+        },
+        writeTime(state, time){
+            state.time = time
+        },
+        openForm(state, v){
+            state.stopGame = v
+        },
+        openResult(state, v){
+            state.viewResult = v
         }
     },
 
