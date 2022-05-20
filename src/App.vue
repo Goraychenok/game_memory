@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="memory">
+    <div class="container">
+      <div class="row">
+        <v_Timer />
+        <v_Start />
+      </div>
+      <v_Memory />
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import v_Timer from './components/vue-Timer.vue'
+import v_Start from  './components/vue-Start.vue'
+import v_Memory from './components/Memory'
+
+
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    v_Timer,
+    v_Start,
+    v_Memory
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  .memory{
+    padding: 80px 0;
+  }
+
 </style>
