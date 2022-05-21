@@ -1,21 +1,40 @@
 
 <template>
-
-      <div class="row" v-if="changeGameStatus">
-        <div v-bind:key="item.key" class="col-lg-2" v-for="(item, i) in elements">
+  <slide-up-down v-model="changeGameStatus" :duration="1000">
+      <div class="row" >
+        <div v-bind:key="item.key" class="col-md-2" v-for="(item, i) in elements">
           <div class="memory__block" @click="cardClick(i)">
-            <img v-bind:src="item.img" :class="[{'block': item.cardStatus, 'saved': item.cardOpen}]"  alt="" class="memory__img">
+              <div class="memory__card">
+                  <div class="memory__panel" :class="[{'flip': item.cardStatus, 'saved': item.cardOpen}]">
+                    <div class="memory__front">
+                      <div class="memory__box">
+
+                      </div>
+                    </div>
+                    <div class="memory__back">
+                      <div class="memory__box">
+                        <img v-bind:src="item.img"   alt="" class="memory__img">
+                      </div>
+                    </div>
+                  </div>
+              </div>
           </div>
         </div>
       </div>
+  </slide-up-down>
 
 </template>
 
 <script>
 import randomKey from '/helpers/randomKey'
 import cloneObj from "../../helpers/cloneObj";
+import SlideUpDown from 'vue3-slide-up-down'
+
 export default {
   name: 'v_Memory',
+  components: {
+    SlideUpDown
+  },
   data() {
     return {
       info: [],
@@ -122,20 +141,93 @@ export default {
 .memory__block{
   aspect-ratio: 2/1;
   width: 100%;
-  border-radius: 20px;
-  background: gray;
   cursor: pointer;
+  margin-bottom: 20px;
+}
+.memory__card{
+  border-radius: 20px;
+  border: 2px solid #fff;
+  position: relative;
+  height: 100%;
+}
+.memory__panel{
+  position: relative;
+
+  -webkit-perspective: 600px;
+  -moz-perspective: 600px;
+  .memory__front, .memory__back{
+    width: 100%;
+  }
+  .memory__front{
+    height: inherit;
+    position: absolute;
+    top: 0;
+    z-index: 900;
+    text-align: center;
+    -webkit-transform: rotateX(0deg) rotateY(0deg);
+    -moz-transform: rotateX(0deg) rotateY(0deg);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  .memory__back{
+    height: inherit;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+}
+.memory__panel.flip{
+  .memory__front{
+    z-index: 900;
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+  }
+  .memory__back {
+    z-index: 1000;
+    -webkit-transform: rotateX(0deg) rotateY(0deg);
+    -moz-transform: rotateX(0deg) rotateY(0deg);
+  }
+}
+.memory__box{
+  aspect-ratio: 2/1;
+  width: 100%;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  border: 2px solid #fff;
+  .memory__img{
+    max-width: 100px;
+  }
 }
-.memory__block .memory__img{
-  display: none;
-  aspect-ratio: 1;
-  max-width: 40px;
+.memory__front {
+  .memory__box{
+    background-color: #0d6efd;
+  }
 }
+.memory__back{
+  .memory__box{
+    background-color: #198754;
+  }
+}
+
 .memory__block .memory__img.block{
   display: block;
 }

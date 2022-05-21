@@ -38,5 +38,10 @@ export default {
   .memory{
     padding: 80px 0;
   }
+  @media (max-width: 1440px) {
+    .memory{
+      padding: 40px 0;
+    }
+  }
 
 </style>

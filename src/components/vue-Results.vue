@@ -1,5 +1,6 @@
 <template>
-  <div class="memory__result" v-if="openResult" >
+  <slide-up-down v-model="openResult" :duration="1000">
+  <div class="memory__result"  >
     <div class="memory__result-title">
       Результаты
     </div>
@@ -26,14 +27,18 @@
       </div>
     </div>
   </div>
+  </slide-up-down>
 </template>
 
 
 <script>
 import randomKey from "../../helpers/randomKey";
-
+import SlideUpDown from 'vue3-slide-up-down'
 export default {
   name: 'vue_Result',
+  components: {
+    SlideUpDown
+  },
   data() {
     return {
       elements: [

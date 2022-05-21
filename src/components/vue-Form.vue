@@ -1,5 +1,6 @@
 <template>
-  <form @submit.prevent="onSubmit" v-if="OpenForm" class="memory__form">
+  <slide-up-down v-model="OpenForm" :duration="1000">
+  <form @submit.prevent="onSubmit" class="memory__form">
       <div class="col-lg-12">
         <div class="memory__form-block">
           <input v-model="name" type="text" class="form-control" required aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="name" placeholder="Введите ваше имя">
@@ -8,11 +9,16 @@
 
       </div>
   </form>
+  </slide-up-down>
 </template>
 
 <script>
+import SlideUpDown from 'vue3-slide-up-down'
 export default {
   name: 'v_Form',
+  components: {
+    SlideUpDown
+  },
   data() {
     return {
       name: ''

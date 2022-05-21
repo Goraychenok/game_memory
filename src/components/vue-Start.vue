@@ -1,15 +1,23 @@
 <template>
+
   <div class="col-lg-6">
-    <input type="submit"  v-if="!start" @click="startGame" value="Начать игру" class="memory__start btn btn-primary">
+    <slide-up-down v-model="start" :duration="1000">
+    <input type="submit"  v-if="start" @click="startGame" value="Начать игру" class="memory__start btn btn-primary">
+    </slide-up-down>
   </div>
+
 </template>
 
 <script>
+import SlideUpDown from 'vue3-slide-up-down'
 export default {
   name: 'v_Start',
+  components: {
+    SlideUpDown
+  },
   data () {
     return{
-      start: false
+      start: true,
     }
   },
   computed: {

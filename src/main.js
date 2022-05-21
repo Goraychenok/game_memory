@@ -5,6 +5,8 @@ import App from './App.vue'
 import './assets/_index.scss'
 import { createStore } from 'vuex'
 
+
+
 const store = createStore({
     state () {
         return {

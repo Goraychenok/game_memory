@@ -1,7 +1,7 @@
 {
   "cards": [
     {"id": 1, "img": "/img/3D Smile 1.gif"},
-    { "id": 2, "img": "/img/3D Smile 20.gif"},
+    {"id": 2, "img": "/img/3D Smile 20.gif"},
     { "id": 3, "img": "/img/3D Smile 31.gif"},
     { "id": 4, "img": "/img/3D Smile 34.gif"},
     { "id": 5, "img": "/img/3D Smile 57.gif"},
@@ -20,10 +20,6 @@
     { "id": 18, "img": "/img/3D Smile 298.gif"}
   ],
   "results": [
-    {
-      "name": "Никита",
-      "time": "0:0:0:2",
-      "id": 1
-    }
+
   ]
 }
