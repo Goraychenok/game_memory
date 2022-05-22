@@ -83,14 +83,13 @@ export default {
           this.selectItems.push(this.elements[i]);
         }
         if(this.selectItems.length === 2) {
-          setTimeout(() => this.cardCheck(), 1000);
+          setTimeout(() => this.cardCheck(this.selectItems[0], this.selectItems[1]), 1000);
         }else if(this.selectItems.length === 1){
           setTimeout(() => {
             if(this.selectItems.length === 1){
               if(this.elements[i].cardOpen === false){
                 this.elements[i].cardStatus = false;
                 this.selectItems = this.selectItems.filter(n => n.id != this.elements[i].id)
-                console.log(this.selectItems)
                 }
               }
             }, 5000)
@@ -98,22 +97,23 @@ export default {
 
 
     },
-    cardCheck: function (){
-      if(this.selectItems[0]?.img !== undefined && this.selectItems[1]?.img !== undefined){
+    cardCheck: function (first_elem, second_elem){
+      if(first_elem?.img !== undefined && second_elem?.img !== undefined){
 
-        if(this.selectItems[0]?.img === this.selectItems[1]?.img){
-          this.selectItems[0].cardOpen = true;
-          this.selectItems[1].cardOpen = true;
+        if(first_elem?.img === second_elem?.img){
+          first_elem.cardOpen = true;
+          second_elem.cardOpen = true;
         }else{
-          if(this.selectItems[0]?.cardStatus){
-            this.selectItems[0].cardStatus = false;
+          if(first_elem?.cardStatus){
+            first_elem.cardStatus = false;
           }
-          if(this.selectItems[1]?.cardStatus){
-            this.selectItems[1].cardStatus = false;
+          if(second_elem?.cardStatus){
+            second_elem.cardStatus = false;
           }
         }
       }
-      this.selectItems = [];
+      this.selectItems = this.selectItems.filter(n => n != first_elem)
+      this.selectItems = this.selectItems.filter(n => n != second_elem)
     }
   },
   watch: {
