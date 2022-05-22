@@ -89,7 +89,8 @@ export default {
             if(this.selectItems.length === 1){
               if(this.elements[i].cardOpen === false){
                 this.elements[i].cardStatus = false;
-                this.selectItems = [];
+                this.selectItems = this.selectItems.filter(n => n.id != this.elements[i].id)
+                console.log(this.selectItems)
                 }
               }
             }, 5000)
@@ -111,10 +112,7 @@ export default {
             this.selectItems[1].cardStatus = false;
           }
         }
-      }else{
-        debugger; // eslint-disable-line no-debugger
       }
-
       this.selectItems = [];
     }
   },
