@@ -30,58 +30,53 @@
   </slide-up-down>
 </template>
 
-
 <script>
-import randomKey from "../../helpers/randomKey";
-import SlideUpDown from 'vue3-slide-up-down'
+import SlideUpDown from 'vue3-slide-up-down';
+import randomKey from '../../helpers/randomKey';
+
 export default {
   name: 'vue_Result',
   components: {
-    SlideUpDown
+    SlideUpDown,
   },
   data() {
     return {
       elements: [
 
-      ]
-    }
-  },
-  async created(){
-
+      ],
+    };
   },
   computed: {
     openResult: {
       get() {
-        return this.$store.state.viewResult
-      }
+        return this.$store.state.viewResult;
+      },
     },
   },
   methods: {
-    async fetchResult()  {
-      const res = await this.axios.get('http://localhost:3000/results/')
-      this.info = res.data
+    async fetchResult() {
+      const res = await this.axios.get('http://localhost:3000/results/');
+      this.info = res.data;
       this.info.forEach((element) => {
-        let el = {
+        const el = {
           id: element.id,
           key: randomKey(),
           name: element.name,
           time: element.time,
         };
-        this.elements.push(el)
-      })
-    }
+        this.elements.push(el);
+      });
+    },
   },
   watch: {
     openResult(v) {
-      if(v){
-        this.fetchResult()
+      if (v) {
+        this.fetchResult();
       }
-
-    }
-  }
-}
+    },
+  },
+};
 </script>
-
 
 <style lang="scss">
   .memory__result-title{

@@ -37,90 +37,88 @@
   </div>
 </template>
 
-
 <script>
-export default{
+export default {
   name: 'v_timer',
   data() {
     return {
       time: 0,
       duration: 0,
-      timerId: null
-    }
+      timerId: null,
+    };
   },
   computed: {
     days() {
-      return Math.floor(this.time / (3600*24))
+      return Math.floor(this.time / (3600 * 24));
     },
     hours() {
-      return Math.floor((this.time-this.days*(24*3600)) / 3600)
+      return Math.floor((this.time - this.days * (24 * 3600)) / 3600);
     },
     minutes() {
-      return Math.floor((this.time-this.days*(24*3600) - this.hours*3600) / 60)
+      return Math.floor((this.time - this.days * (24 * 3600) - this.hours * 3600) / 60);
     },
     seconds() {
-      return this.time-this.days*(24*3600) - this.hours*3600 - this.minutes * 60
+      return this.time - this.days * (24 * 3600) - this.hours * 3600 - this.minutes * 60;
     },
 
     changeGameStatus: {
       get() {
-        return this.$store.state.startGame
-      }
+        return this.$store.state.startGame;
+      },
     },
     stopGame: {
       get() {
-        return this.$store.state.time
+        return this.$store.state.time;
       },
       set(time) {
-        this.$store.commit('writeTime', time)
-      }
+        this.$store.commit('writeTime', time);
+      },
     },
     openForm: {
-      get(){
-        return this.$store.state.stopGame
+      get() {
+        return this.$store.state.stopGame;
       },
-      set(v){
-        this.$store.commit('openForm', v)
-      }
-    }
+      set(v) {
+        this.$store.commit('openForm', v);
+      },
+    },
   },
   methods: {
     tick() {
-      this.time += 1
+      this.time += 1;
       if (this.time < 0) {
-        this.time = this.duration
+        this.time = this.duration;
       }
-      this.save()
+      this.save();
     },
     save() {
-      window.localStorage.setItem('timer', this.time)
+      window.localStorage.setItem('timer', this.time);
     },
     load() {
-      this.time = Math.floor((new Date().getTime() - new Date().getTime()) / 1000)
+      this.time = Math.floor((new Date().getTime() - new Date().getTime()) / 1000);
     },
     decLabel: (n, titles) => {
       const cases = [2, 0, 1, 1, 1, 2];
-      const label = titles[ (n%100>4 && n%100<20)? 2 : cases[(n%10<5)?n%10:5] ]
-      return `${label}`
-    }
+      const label = titles[(n % 100 > 4 && n % 100 < 20) ? 2 : cases[(n % 10 < 5) ? n % 10 : 5]];
+      return `${label}`;
+    },
   },
-  watch:{
+  watch: {
     changeGameStatus(v) {
-      if(v){
-        this.load()
+      if (v) {
+        this.load();
         this.timerId = setInterval(() => {
-          this.tick()
-        }, 1000)
-      }else{
+          this.tick();
+        }, 1000);
+      } else {
         this.stopGame = [this.seconds, this.minutes, this.hours, this.days];
         clearInterval(this.timerId);
-        this.openForm = !this.openForm
+        this.openForm = !this.openForm;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
-
 
 <style lang="scss">
   .memory__timer{

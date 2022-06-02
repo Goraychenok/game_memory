@@ -1,4 +1,3 @@
-
 <template>
   <slide-up-down v-model="changeGameStatus" :duration="1000">
       <div class="row" >
@@ -26,14 +25,14 @@
 </template>
 
 <script>
-import randomKey from '/helpers/randomKey'
-import cloneObj from "../../helpers/cloneObj";
-import SlideUpDown from 'vue3-slide-up-down'
+import SlideUpDown from 'vue3-slide-up-down';
+import randomKey from '../../helpers/randomKey';
+import cloneObj from '../../helpers/cloneObj';
 
 export default {
   name: 'v_Memory',
   components: {
-    SlideUpDown
+    SlideUpDown,
   },
   data() {
     return {
@@ -41,98 +40,98 @@ export default {
       elements: [
 
       ],
-      start : false,
+      start: false,
       selectItems: [
 
-      ]
-    }
+      ],
+    };
   },
-  async created(){
-    const res = await this.axios.get('http://localhost:3000/cards/')
-    this.info = res.data
+  async created() {
+    const res = await this.axios.get('http://localhost:3000/cards/');
+    this.info = res.data;
     this.info.forEach((element) => {
-      let el = {
+      const newEl = {
         id: element.id,
         img: element.img,
         cardStatus: false,
         key: randomKey(),
-        cardOpen: false
+        cardOpen: false,
       };
-      let elT = cloneObj(el)
-      this.elements = [...this.elements, el, elT];
-    })
+      const newElT = cloneObj(newEl);
+      this.elements = [...this.elements, newEl, newElT];
+    });
     this.elements = this.elements.sort(() => Math.random() - 0.5);
   },
   computed: {
     changeGameStatus: {
       get() {
-        return this.$store.state.startGame
+        return this.$store.state.startGame;
       },
       set(v) {
-        this.$store.commit('changeGameStatus', v)
-      }
-    }
+        this.$store.commit('changeGameStatus', v);
+      },
+    },
   },
   methods: {
-    cardClick: function (i){
-        if(this.selectItems.length >= 2){
-          return;
-        }
-        if(this.elements[i].cardStatus === false && this.elements[i].cardOpen === false){
-          this.elements[i].cardStatus = !this.elements[i].cardStatus;
-          this.selectItems.push(this.elements[i]);
-        }
-        if(this.selectItems.length === 2) {
-          setTimeout(() => this.cardCheck(this.selectItems[0], this.selectItems[1]), 1000);
-        }else if(this.selectItems.length === 1){
-          setTimeout(() => {
-            if(this.selectItems.length === 1){
-              if(this.elements[i].cardOpen === false){
-                this.elements[i].cardStatus = false;
-                this.selectItems = this.selectItems.filter(n => n.id != this.elements[i].id)
-                }
-              }
-            }, 5000)
-        }
-
-
-    },
-    cardCheck: function (first_elem, second_elem){
-      if(first_elem?.img !== undefined && second_elem?.img !== undefined){
-
-        if(first_elem?.img === second_elem?.img){
-          first_elem.cardOpen = true;
-          second_elem.cardOpen = true;
-        }else{
-          if(first_elem?.cardStatus){
-            first_elem.cardStatus = false;
+    cardClick(i) {
+      const El = this.elements[i];
+      if (this.selectItems.length >= 2) {
+        return;
+      }
+      if (!El.cardStatus && !El.cardOpen) {
+        El.cardStatus = !El.cardStatus;
+        this.selectItems.push(El);
+      }
+      if (this.selectItems.length === 2) {
+        setTimeout(() => this.cardCheck(this.selectItems[0], this.selectItems[1]), 1000);
+      } else if (this.selectItems.length === 1) {
+        setTimeout(() => {
+          if (this.selectItems.length === 1) {
+            if (!El.cardOpen) {
+              El.cardStatus = false;
+              this.selectItems = this.selectItems.filter((n) => n.id !== El.id);
+            }
           }
-          if(second_elem?.cardStatus){
-            second_elem.cardStatus = false;
+        }, 5000);
+      }
+    },
+    cardCheck(firstElem, secondElem) {
+      const checkFirstElem = firstElem;
+      const checkSecondElem = secondElem;
+      if (firstElem?.img !== undefined && secondElem?.img !== undefined) {
+        if (firstElem?.img === secondElem?.img) {
+          checkFirstElem.cardOpen = true;
+          checkSecondElem.cardOpen = true;
+        } else {
+          if (firstElem?.cardStatus) {
+            checkFirstElem.cardStatus = false;
+          }
+          if (secondElem?.cardStatus) {
+            checkSecondElem.cardStatus = false;
           }
         }
       }
-      this.selectItems = this.selectItems.filter(n => n != first_elem)
-      this.selectItems = this.selectItems.filter(n => n != second_elem)
-    }
+      this.selectItems = this.selectItems.filter((n) => n !== checkFirstElem);
+      this.selectItems = this.selectItems.filter((n) => n !== checkSecondElem);
+    },
   },
   watch: {
     elements: {
-      handler(){
+      handler() {
         let i = 0;
-        this.elements.forEach((element)  => {
-          if(element.cardOpen){
-            i++;
+        this.elements.forEach((element) => {
+          if (element.cardOpen) {
+            i += 1;
           }
-        })
-        if(i === this.elements.length){
-          this.changeGameStatus = !this.changeGameStatus
+        });
+        if (i === this.elements.length) {
+          this.changeGameStatus = !this.changeGameStatus;
         }
       },
-      deep: true
-    }
-  }
-}
+      deep: true,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -150,7 +149,6 @@ export default {
 }
 .memory__panel{
   position: relative;
-
   -webkit-perspective: 600px;
   -moz-perspective: 600px;
   .memory__front, .memory__back{

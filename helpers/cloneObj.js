@@ -1,3 +1,3 @@
 export default function (Obj) {
-    return JSON.parse(JSON.stringify(Obj));
+  return JSON.parse(JSON.stringify(Obj));
 }

@@ -13,54 +13,54 @@
 </template>
 
 <script>
-import SlideUpDown from 'vue3-slide-up-down'
+import SlideUpDown from 'vue3-slide-up-down';
+
 export default {
   name: 'v_Form',
   components: {
-    SlideUpDown
+    SlideUpDown,
   },
   data() {
     return {
-      name: ''
-    }
+      name: '',
+    };
   },
   methods: {
     onSubmit() {
       const data = {
         name: this.name,
-        time: this.returnTime[3] + ':' + this.returnTime[2] + ':' + this.returnTime[1] + ':' + this.returnTime[0]
+        time: `${this.returnTime[3]} : ${this.returnTime[2]} : ${this.returnTime[1]} : ${this.returnTime[0]}`,
 
-      }
+      };
       this.axios.post('http://localhost:3000/results/', data);
-      this.OpenForm = !this.OpenForm
-      this.viewResult = !this.viewResult
-    }
+      this.OpenForm = !this.OpenForm;
+      this.viewResult = !this.viewResult;
+    },
   },
   computed: {
     returnTime: {
       get() {
-        return this.$store.state.time
-      }
+        return this.$store.state.time;
+      },
     },
     viewResult: {
       get() {
-        return this.$store.state.viewResult
+        return this.$store.state.viewResult;
       },
       set(v) {
-        this.$store.commit('openResult', v)
-      }
+        this.$store.commit('openResult', v);
+      },
     },
     OpenForm: {
       get() {
-        return this.$store.state.stopGame
+        return this.$store.state.stopGame;
       },
-      set(v){
-        this.$store.commit('openForm', v)
-      }
-
-    }
-  }
-}
+      set(v) {
+        this.$store.commit('openForm', v);
+      },
+    },
+  },
+};
 </script>
 
 <style lang="scss">
